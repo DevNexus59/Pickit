@@ -2,9 +2,9 @@
 # This line is primarily for internal syntax definition and doesn't need modification.
 #syntax=docker/dockerfile:1.4
 
-# Start with the official Node.js 20 image based on Alpine Linux for a smaller base image.
+# Start with the official Node.js 24 image based on Alpine Linux for a smaller base image.
 # Using Alpine keeps the image lightweight, though compatibility issues may arise with certain libraries.
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Install necessary packages.
 # libc6-compat is often needed for compatibility with some npm packages.

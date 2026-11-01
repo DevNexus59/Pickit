@@ -1,14 +1,15 @@
-version: "3.4"
-
 services:
   web:
     build: .
     container_name: ${PROJECT_NAME:-pickit}-web
+    restart: unless-stopped
     env_file:
-      - .env.prod
-    command: sh -c "npm run build && npm run start"
+      - .env
+    command: sh -c "rm -f /usr/src/app/server/public/assets/index-*.js /usr/src/app/server/public/assets/index-*.css /usr/src/app/server/public/index.html && npm run build && npm run start"
     ports:
       - "3320:${APP_PORT}"
+    volumes:
+      - ./server/public/assets/images:/usr/src/app/server/public/assets/images
     environment:
       APP_PORT: ${APP_PORT}
       APP_SECRET: ${APP_SECRET}
@@ -31,8 +32,9 @@ services:
   database:
     image: mysql/mysql-server:8.0
     container_name: ${PROJECT_NAME:-pickit}-db
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${DB_USER}", "-p${DB_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
       timeout: 5s
       retries: 20
